@@ -36,6 +36,7 @@ echo "${INFO} Updating Fedora... ${RESET}"
 
 u
 i whiptail
+i curl
 
 whiptail --title "Doruo custom Fedora-Hyprland (2025) Install Script" \
     --msgbox "Welcome to Doruo Fedora-Hyprland (2025) Install Script!\n\n\
@@ -51,6 +52,20 @@ if ! whiptail --title "Proceed with Installation?" \
     exit 1
 fi
 
+if whiptail --title "Softwares setup." \
+    --yesno "Would you like to install go & python ?" 7 50; then
+        echo -e "\n"
+        echo "${INFO} You chose to install softwares. ${YELLOW}Installing...${RESET}"
+        ilangages     
+fi    
+
+if whiptail --title "Softwares setup." \
+    --yesno "Would you like to install git pgadmin & postman ?" 7 50; then
+        echo -e "\n"
+        echo "${INFO} You chose to install softwares. ${YELLOW}Installing...${RESET}"
+        isoftwares        
+fi    
+
 if [ -d "~/Fedora-Hyprland" ]; then
     # Ask if the user wants to delete older config
     if whiptail --title "Fedora-Hyprland already exists." \
@@ -64,10 +79,8 @@ if [ -d "~/Fedora-Hyprland" ]; then
 fi
 
 # Install jakoolit fedora hyprland
-git clone --depth=1 https://github.com/JaKooLit/Fedora-Hyprland.git ~/Fedora-Hyprland
 cd ~/Fedora-Hyprland
-chmod +x auto-install.sh
-./auto-install.sh
+sh <(curl -L https://raw.githubusercontent.com/JaKooLit/Fedora-Hyprland/main/auto-install.sh)
 
 printf "\n ${OK} Hyprland is installed and configured !"
 
@@ -82,4 +95,4 @@ if whiptail --title "Hyprland is installed and configured !" \
     reboot
 fi
 
-echo -e "\n ${OK} ${GREEN}END...${RESET}"
+echo -e "\n ${OK} ${GREEN}End of script...${RESET}"
