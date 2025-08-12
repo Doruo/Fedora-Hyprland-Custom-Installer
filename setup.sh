@@ -52,20 +52,29 @@ if ! whiptail --title "Proceed with Installation?" \
     exit 1
 fi
 
-if whiptail --title "Softwares setup." \
-    --yesno "Would you like to install go & python ?" 7 50; then
-        echo -e "\n"
-        echo "${INFO} You chose to install softwares. ${YELLOW}Installing...${RESET}"
-        ilangages     
-fi    
-
-if whiptail --title "Softwares setup." \
-    --yesno "Would you like to install git pgadmin & postman ?" 7 50; then
+if whiptail --title "Dev softwares setup." \
+    --yesno "Would you like to install git, pgadmin, postman ?"\n\n\
+    "Mostly taken from Jakoolit incredible setup: https://github.com/JaKooLit/Fedora-Hyprland"\
+7 50; then
         echo -e "\n"
         echo "${INFO} You chose to install softwares. ${YELLOW}Installing...${RESET}"
         isoftwares        
+fi  
+
+if whiptail --title "Dev langages setup." \
+    --yesno "Would you like to install go, python ?" 7 50; then
+        echo -e "\n"
+        echo "${INFO} You chose to install dev langages (go, python). ${YELLOW}Installing...${RESET}"
+        ilangages     
 fi    
 
+if whiptail --title "Discord install." \
+    --yesno "Would you like to install discord ?" 7 50; then
+        echo -e "\n"
+        echo "${INFO} You chose to install discord. ${YELLOW}Installing...${RESET}"
+        i discord 
+fi  
+  
 if [ -d "~/Fedora-Hyprland" ]; then
     # Ask if the user wants to delete older config
     if whiptail --title "Fedora-Hyprland already exists." \
@@ -82,10 +91,8 @@ fi
 cd ~/Fedora-Hyprland
 sh <(curl -L https://raw.githubusercontent.com/JaKooLit/Fedora-Hyprland/main/auto-install.sh)
 
-printf "\n ${OK} Hyprland is installed and configured !"
-
 # Ask if the user wants to reboot
-if whiptail --title "Hyprland is installed and configured !" \
+if whiptail --title "End of Hyprland setup" \
     --yesno "Would you like to reboot?" 7 50; then
     echo -e "\n"
     echo "${INFO} You chose to reboot. ${YELLOW}Exiting...${RESET}"
