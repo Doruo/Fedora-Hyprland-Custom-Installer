@@ -56,7 +56,6 @@ Mostly taken from Jakoolit incredible setup: https://github.com/JaKooLit/Fedora-
     15 80
 
 # Install jakoolit fedora hyprland
-cd ~/Fedora-Hyprland
 sh <(curl -L $AUTO_INSTALL_URL)
 
 # Ask if the user wants to proceed
