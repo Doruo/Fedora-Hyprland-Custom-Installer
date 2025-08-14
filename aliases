@@ -46,9 +46,9 @@ a sn="s nano"
 a t="touch"
 
 # Alias settings
-a aliasc="n $HOME/.bashrc" # Alias change (access this file)
-a aliasg="gedit $HOME/.bashrc" # Alias change (gedit)
-a aliasr='source $HOME/.bashrc && e "Bash aliases reloaded !"' # Alias reload
+a aliasc="n ~/.bashrc" # Alias change (access this file)
+a aliasg="gedit ~/.bashrc" # Alias change (gedit)
+a aliasr='source ~/.bashrc && e "Bash aliases reloaded !"' # Alias reload
 a una="unalias"
 
 # /----- FILES -----/
@@ -60,7 +60,7 @@ a r="s dnf rm"
 a si="s snap install" # install via Snap (not recommended)
 
 # File & Directory
-a home="cd $HOME"
+a home="cd ~"
 a sys="cd /"
 a cdp="cd .."
 a cdp2="cdp;cdp"
@@ -75,7 +75,7 @@ a idev="isoftwares; ilanguages"
 # /----- HYPRLAND -----/
 
 # Conf Directories Access
-a conf="cd $HOME/.config"
+a conf="cd ~/.config"
 a cdkitty="conf && cd kitty"
 a cdwaybar="conf && cd waybar"
 a cdrofi="conf && cd rofi"
