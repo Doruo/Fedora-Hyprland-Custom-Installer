@@ -15,8 +15,8 @@ This script can install :
 ### Usage
 
 Type on a terminal:
-`bash setup.sh`
+`bash install.sh`
 
 ### Work In Progress
 
-Still unstable and some things need to be corrected.
+Still not working, unstable and some things need to be corrected.
