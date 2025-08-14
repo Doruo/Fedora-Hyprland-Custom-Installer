@@ -2,7 +2,7 @@
 
 ### Description
 
-Custom auto installer for JaKoolit Hyprland on Fedora, with integrated whiptail graphic interace. Made for personnal purpose. 
+Custom auto installer for JaKoolit Hyprland on Fedora, with integrated whiptail graphic interface. Made for personnal purpose. 
 
 Mostly taken from Jakoolit [incredible setup](https://github.com/JaKooLit/Fedora-Hyprland).
 
