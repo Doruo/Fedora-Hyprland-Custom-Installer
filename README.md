@@ -3,6 +3,7 @@
 Mostly taken from Jakoolit incredible setup: https://github.com/JaKooLit/Fedora-Hyprland.
 
 Includes custom keybinds, waybars, aliases, scripts.
+
 Also includes wallpapers from artist Pixel Jeff, you can check out his stuff here: https://www.deviantart.com/pixeljeff
 
 ## Usage
