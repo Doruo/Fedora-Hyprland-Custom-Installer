@@ -34,8 +34,12 @@ CONF_PATH="~/.config/hypr"
 JAKOOLIT_REPO="https://github.com/JaKooLit/Fedora-Hyprland"
 AUTO_INSTALL="https://raw.githubusercontent.com/JaKooLit/Fedora-Hyprland/main/auto-install.sh"
 
-
 # /--------------------/ INIT /--------------------/
+
+whiptail --title "Doruo custom Fedora-Hyprland (2025) Install Script" \
+    --msgbox "Welcome to Doruo Fedora-Hyprland (2025) Install Script!\n\n\
+Mostly taken from Jakoolit incredible setup: $JAKOOLIT_REPO"\
+    15 80
 
 clear
 cd ~
@@ -47,11 +51,6 @@ sudo dnf update
 # Instal utilities
 sudo dnf install whiptail
 
-whiptail --title "Doruo custom Fedora-Hyprland (2025) Install Script" \
-    --msgbox "Welcome to Doruo Fedora-Hyprland (2025) Install Script!\n\n\
-Mostly taken from Jakoolit incredible setup: $JAKOOLIT_REPO"\
-    15 80
-
 # /--------------------/ Install jakoolit fedora hyprland /--------------------/
 
 git clone --depth=1 $JAKOOLIT_REPO.git ~/Fedora-Hyprland
@@ -61,7 +60,7 @@ chmod +x install.sh
 
 # Ask if the user wants to proceed custom setup
 if ! whiptail --title "Proceed with custom setup?" \
-    --yesno "Would you like to proceed additionnal custom setup?" 
+    --yesno "Would you like to proceed additionnal custom setup?" \
     $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
 
     echo -e "\n"
@@ -78,15 +77,23 @@ if whiptail --title "Custom Hyprland config" \
     --yesno "Would you like to use custom Hyprland config ?" \
     $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
 
-        CHOICE_CUSTOM_CONFIG=true
+    CHOICE_CUSTOM_CONFIG=0
+fi       
+
+if whiptail --title "Custom aliases" \
+    --yesno "Would you like to use custom aliases ?" \
+    $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
+
+    CHOICE_CUSTOM_ALIASES=0
 fi        
+
 
 # Dev softwares
 if whiptail --title "Dev softwares" \
     --yesno "Would you like to install dev softwares ?" \
     $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
 
-        CHOICE_INSTALL_DEV_SOFT=true
+    CHOICE_INSTALL_DEV_SOFT=0
 fi  
 
 # Dev langages
@@ -94,7 +101,7 @@ if whiptail --title "Dev langages" \
     --yesno "Would you like to install go, python ?" \
     $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
 
-        CHOICE_INSTALL_DEV_LANG=true
+    CHOICE_INSTALL_DEV_LANG=0
 fi    
 
 # Discord
@@ -102,7 +109,7 @@ if whiptail --title "Discord" \
     --yesno "Would you like to install discord ?" \
     $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
     
-    CHOICE_INSTALL_DISCORD=true
+    CHOICE_INSTALL_DISCORD=0
 fi  
 
 # Reboot
@@ -111,14 +118,14 @@ if whiptail --title "End of Hyprland setup" \
     --yesno "Would you like to reboot when finished ? (recommended)" \
     $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
 
-    CHOICE_REBOOT_AFTER_INSTALL=true
+    CHOICE_REBOOT_AFTER_INSTALL=0
 fi
 
 # /--------------------/ CUSTOM SETUP PROCESS /--------------------/
 
 # Custom Hyprland config
 
-if $CHOICE_CUSTOM_CONFIG; then
+if [ $CHOICE_CUSTOM_CONFIG -eq 0 ]; then
 
     echo -e "\n"echo "${INFO} You chose to use custom Hyprland config."
     echo -e "\n"
@@ -137,26 +144,35 @@ if $CHOICE_CUSTOM_CONFIG; then
 
     # Custom wallpapers
 
-    cp -r $CUSTOM_CONF_PATH/wallpapers ~/Pictures/wallpapers    
-
-    # Custom bash aliases
-
-    if [ -f .bashrc ]; then
-        truncate -s 0 .bashrc
-    fi
-    cat $CUSTOM_CONF_PATH/aliases > .bashrc
-    source .bashrc
- 
+    cp -r $CUSTOM_CONF_PATH/wallpapers ~/Pictures/wallpapers     
 else
     echo -e "\n"
     echo "${INFO} You chose ${YELLOW}NOT${RESET} to use custom Hyprland config."
     echo -e "\n"
 fi
 
+# Custom aliases
+
+if [ $CHOICE_CUSTOM_ALIASES -eq 0 ]; then
+
+    echo -e "\n"echo "${INFO} You chose to use custom aliases."
+    echo -e "\n"
+    
+    if [ -f .bashrc ]; then
+        truncate -s 0 .bashrc
+    fi
+    cat $CUSTOM_CONF_PATH/aliases > .bashrc
+    source .bashrc
+
+else
+    echo -e "\n"
+    echo "${INFO} You chose ${YELLOW}NOT${RESET} to use custom aliases."
+    echo -e "\n"
+fi
 
 # Dev softwares
 
-if $CHOICE_INSTALL_DEV_SOFT; then
+if [ $CHOICE_INSTALL_DEV_SOFT -eq 0 ]; then
     echo -e "\n"
     echo "${INFO} You chose to install softwares. ${YELLOW}Installing...${RESET}"
 
@@ -177,7 +193,7 @@ fii
 
 # Dev langages
 
-if $CHOICE_INSTALL_DEV_LANG; then
+if [ $CHOICE_INSTALL_DEV_LANG -eq 0 ]; then
     echo -e "\n"
     echo "${INFO} You chose to install dev langages (go, python). ${YELLOW}Installing...${RESET}"
     sudo dnf install go    
@@ -190,7 +206,7 @@ fi
 
 # Discord
 
-if $CHOICE_INSTALL_DISCORD; then
+if [ $CHOICE_INSTALL_DISCORD -eq 0 ]; then
     echo -e "\n"
     echo "${INFO} You chose to install Discord. ${YELLOW}Installing...${RESET}"
     sudo dnf install discord 
@@ -202,7 +218,7 @@ fi
 
 # Reboot
 
-if $CHOICE_REBOOT_AFTER_INSTALL; then
+if [ $CHOICE_REBOOT_AFTER_INSTALL -eq 0 ]; then
     echo -e "\n"
     echo "${INFO} You chose to reboot when finished."
     echo -e "\n"
