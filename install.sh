@@ -24,7 +24,7 @@ RESET="$(tput sgr0)"
 DELAY_BEFORE_REBOOT=5
 
 # Path vars
-RELATIVE_PATH=$(pwd)
+RELATIVE_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 CUSTOM_CONF_PATH="$RELATIVE_PATH/custom-hypr"
 CONF_PATH="~/.config/hypr"
 
@@ -126,14 +126,14 @@ if $CHOICE_CUSTOM_CONFIG; then
 
     # Custom wallpapers
 
-    cp -r $RELATIVE_PATH/wallpapers ~/Pictures/wallpapers    
+    cp -r $CUSTOM_CONF_PATH/wallpapers ~/Pictures/wallpapers    
 
     # Custom bash aliases
 
     if [ -f .bashrc ]; then
         truncate -s 0 .bashrc
     fi
-    cat $RELATIVE_PATH/aliases > .bashrc
+    cat $CUSTOM_CONF_PATH/aliases > .bashrc
     source .bashrc
  
 else
