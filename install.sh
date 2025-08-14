@@ -21,6 +21,8 @@ SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
 
 # Script attributs
+DIALOG_BOX_HEIGHT=7
+DIALOG_BOX_WIDTH=50
 DELAY_BEFORE_REBOOT=5
 
 # Path vars
@@ -59,7 +61,9 @@ chmod +x install.sh
 
 # Ask if the user wants to proceed custom setup
 if ! whiptail --title "Proceed with custom setup?" \
-    --yesno "Would you like to proceed additionnal custom setup?" 7 50; then
+    --yesno "Would you like to proceed additionnal custom setup?" 
+    $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
+
     echo -e "\n"
     echo "${INFO} You chose ${YELLOW}NOT${RESET} to proceed. ${YELLOW}Exiting...${RESET}"
     echo -e "\n"
@@ -71,28 +75,32 @@ fi
 # Custom Hyprland config
 # Ask if the user wants to delete older config
 if whiptail --title "Custom Hyprland config" \
-    --yesno "Would you like to use custom Hyprland config ?" 7 50; then
+    --yesno "Would you like to use custom Hyprland config ?" \
+    $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
 
         CHOICE_CUSTOM_CONFIG=true
 fi        
 
 # Dev softwares
 if whiptail --title "Dev softwares" \
-    --yesno "Would you like to install dev softwares ?" 7 50; then
+    --yesno "Would you like to install dev softwares ?" \
+    $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
 
         CHOICE_INSTALL_DEV_SOFT=true
 fi  
 
 # Dev langages
 if whiptail --title "Dev langages" \
-    --yesno "Would you like to install go, python ?" 7 50; then
+    --yesno "Would you like to install go, python ?" \
+    $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
 
         CHOICE_INSTALL_DEV_LANG=true
 fi    
 
 # Discord
 if whiptail --title "Discord" \
-    --yesno "Would you like to install discord ?" 7 50; then
+    --yesno "Would you like to install discord ?" \
+    $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
     
     CHOICE_INSTALL_DISCORD=true
 fi  
@@ -100,7 +108,9 @@ fi
 # Reboot
 # Ask if the user wants to reboot
 if whiptail --title "End of Hyprland setup" \
-    --yesno "Would you like to reboot when finished?" 7 50; then
+    --yesno "Would you like to reboot when finished ? (recommended)" \
+    $DIALOG_BOX_HEIGHT $DIALOG_BOX_WIDTH; then
+
     CHOICE_REBOOT_AFTER_INSTALL=true
 fi
 
@@ -109,6 +119,7 @@ fi
 # Custom Hyprland config
 
 if $CHOICE_CUSTOM_CONFIG; then
+
     echo -e "\n"echo "${INFO} You chose to use custom Hyprland config."
     echo -e "\n"
 
@@ -204,4 +215,4 @@ else
     echo -e "\n"
 fi
 
-echo -e "\n ${OK} ${GREEN}End of script...${RESET}"
+echo -e "\n ${OK} ${GREEN}End of custom install.${RESET}"
