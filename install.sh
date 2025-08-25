@@ -20,7 +20,7 @@ BLUE="$(tput setaf 4)"
 SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
 
-# Script attributs
+# Script attributes
 DIALOG_BOX_HEIGHT=7
 DIALOG_BOX_WIDTH=50
 DELAY_BEFORE_REBOOT=5
@@ -28,11 +28,11 @@ DELAY_BEFORE_REBOOT=5
 # Path vars
 RELATIVE_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 CUSTOM_CONF_PATH="$RELATIVE_PATH/custom-hypr"
-CONF_PATH="~/.config/hypr"
+CONF_PATH="$HOME/.config/hypr"
 
 # Jakoolit urls
 JAKOOLIT_REPO="https://github.com/JaKooLit/Fedora-Hyprland"
-AUTO_INSTALL="https://raw.githubusercontent.com/JaKooLit/Fedora-Hyprland/main/auto-install.sh"
+JAKOOLIT_AUTO_INSTALL="https://raw.githubusercontent.com/JaKooLit/Fedora-Hyprland/main/auto-install.sh"
 
 # /--------------------/ INIT /--------------------/
 
@@ -42,19 +42,27 @@ Mostly taken from Jakoolit incredible setup: $JAKOOLIT_REPO"\
     15 80
 
 clear
-cd ~
+cd $HOME
 
 # Update operating system
 echo "${INFO} Updating Fedora..."
 sudo dnf update
 
-# Instal utilities
+# Install utilities
+echo "${INFO} Installing utilities for setup..."
 sudo dnf install whiptail
+sudo dnf install rsync
 
-# /--------------------/ Install jakoolit fedora hyprland /--------------------/
+# /--------------------/ JAKOOLIT HYPRLAND /--------------------/
 
-git clone --depth=1 $JAKOOLIT_REPO.git ~/Fedora-Hyprland
-cd ~/Fedora-Hyprland
+# Create main directory
+echo "${INFO} Creating Fedora-Hyprland directory..."
+mkdir $HOME/Fedora-Hyprland
+
+# Install jakoolit
+echo "${INFO} Installing Jakoolit Fedora Hyprland..."
+git clone --depth=1 $JAKOOLIT_REPO.git $HOME/Fedora-Hyprland
+cd $HOME/Fedora-Hyprland
 chmod +x install.sh
 ./install.sh
 
@@ -130,21 +138,18 @@ if [ $CHOICE_CUSTOM_CONFIG -eq 0 ]; then
     echo -e "\n"echo "${INFO} You chose to use custom Hyprland config."
     echo -e "\n"
 
-    # Custom scripts
-    
-    cp -r $CUSTOM_CONF_PATH/UserScripts $CONF_PATH/UserScripts
+    FOLDERS="rofi UserConfigs UserScripts waybar"
 
-    # Custom configs
+    for dir in $FOLDERS; do
+        if [ -d "$dir" ]; then
+            echo "Syncing config directory: $dir..."
+            rsync -rf $CUSTOM_CONF_PATH/$dir $CONF_PATH/$dir
+        fi
+    done
 
-    cp -r $CUSTOM_CONF_PATH/configs $CONF_PATH/configs
+    # Custom wallpapers in a different copy path
+    cp -rf $CUSTOM_CONF_PATH/wallpapers $HOME/Pictures/wallpapers     
 
-    # Custom rofi themes
-
-    cp -r $CUSTOM_CONF_PATH/configs $CONF_PATH/configs
-
-    # Custom wallpapers
-
-    cp -r $CUSTOM_CONF_PATH/wallpapers ~/Pictures/wallpapers     
 else
     echo -e "\n"
     echo "${INFO} You chose ${YELLOW}NOT${RESET} to use custom Hyprland config."
@@ -176,15 +181,12 @@ if [ $CHOICE_INSTALL_DEV_SOFT -eq 0 ]; then
     echo -e "\n"
     echo "${INFO} You chose to install softwares. ${YELLOW}Installing...${RESET}"
 
-    # Git
-    sudo dnf install git       
-    # Vscode
-    sudo dnf install code    
-    # Pgadmin4
-    sudo dnf install pgadmin4
-    # Postman
-    sudo dnf install snap
-    sudo snap install postman
+    SOFTWARES="git code pgadmin4"
+
+    for software in $SOFTWARES; do
+        echo "Installing software: $software..."
+        sudo dnf install $software
+    done
 else
     echo -e "\n"
     echo "${INFO} You chose ${YELLOW}NOT${RESET} to install softwares."
@@ -196,8 +198,13 @@ fii
 if [ $CHOICE_INSTALL_DEV_LANG -eq 0 ]; then
     echo -e "\n"
     echo "${INFO} You chose to install dev langages (go, python). ${YELLOW}Installing...${RESET}"
-    sudo dnf install go    
-    sudo dnf install python3
+
+    DEV_LANGS="go java python3 php"
+
+    for langage in $DEV_LANGS; do
+        echo "Installing programming langage: $langage..."
+        sudo dnf install $langage
+    done
 else
     echo -e "\n"
     echo "${INFO} You chose ${YELLOW}NOT${RESET} to install dev langages (go, python)."
